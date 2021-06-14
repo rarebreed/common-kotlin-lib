@@ -47,15 +47,15 @@ dependencies {
         description = "Provides kapt annotations for projects"
     } */
 
-    //testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
-    //testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest:kotest-runner-junit5:4.4.0")
+    testImplementation("io.kotest:kotest-assertions-core:4.4.0")
 }
 
 // Configure the plugin
 gradlePlugin {
     plugins {
         create("common-kotlin-lib") {
-            id = "common.kotlin.lib"
+            id = "com.github.rarebreed.common.kotlin.lib"
             displayName = "Common Kotlin libs plugin"
             description = "Plugin to automatically install several plugins and dependencies common in kotlin projects"
             implementationClass = "com.github.rarebreed.decipher.KotlinLibrary"
@@ -80,7 +80,6 @@ pluginBundle {
 publishing {
     repositories {
         maven {
-            name = "localPlugin"
             url = uri("../local-plugin-repository")
         }
     }
