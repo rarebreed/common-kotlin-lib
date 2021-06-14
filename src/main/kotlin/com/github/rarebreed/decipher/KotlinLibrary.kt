@@ -3,9 +3,11 @@
  */
 package com.github.rarebreed.decipher
 
+import groovy.lang.Closure
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import kotlin.reflect.jvm.internal.impl.resolve.calls.inference.CapturedType
+import org.gradle.api.Task
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /**
  * Custom plugin that configures plugins for us
@@ -23,26 +25,26 @@ class KotlinLibrary : Plugin<Project> {
         return true
     }
 
-    override fun apply(target: Project) {
+    override fun apply(project: Project) {
         // Add the gradlePlugin and mavenCentral repositories
-        target.repositories.gradlePluginPortal()
-        target.repositories.mavenCentral()
+        project.repositories.gradlePluginPortal()
+        project.repositories.mavenCentral()
 
         // add plugins: kotlin, kapt plugin
-        target.pluginManager.apply("org.jetbrains.kotlin.jvm")
-        target.pluginManager.apply("org.jetbrains.kotlin.kapt")
+        project.pluginManager.apply("org.jetbrains.kotlin.jvm")
+        project.pluginManager.apply("org.jetbrains.kotlin.kapt")
         // TODO: figure out plugin for java-library
 
         // add all our dependencies: kotlinx coroutine, serialization
         //val jacksonVersion = target.properties["jacksonVersion"] as String
-        target.properties.forEach { (k, v) ->
+        project.properties.forEach { (k, v) ->
             println("$k = $v")
         }
 
         val kotlinVersion = "1.5.10" //target.properties["kotlinVersion"] as String
-        val kotestVersion = "4.i6.0" //target.properties["kotestVersion"] as String
+        val kotestVersion = "4.6.0" //target.properties["kotestVersion"] as String
 
-        target.dependencies.apply {
+        project.dependencies.apply {
             // Jackson
             //add("implementation", "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
             //add("implementation", "com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
@@ -50,13 +52,18 @@ class KotlinLibrary : Plugin<Project> {
             // kotlin
             add("implementation", "org.jetbrains.kotlin:kotlin-bom:$kotlinVersion")
             add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
-            add("implementation", "org.jetbrains.kotlin:kotlinx-coroutines-core:1.5.0")
+            add("implementation", "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
 
             add("testImplementation", "io.kotest:kotest-runner-junit5:$kotestVersion")
             add("testImplementation", "io.kotest:kotest-assertions-core:$kotestVersion")
         }
 
-        // TODO: set up compiler options
+        // set up compiler options
+        val task = project.tasks.getByName("compileKotlin") as KotlinCompile
+        task.kotlinOptions {
+            languageVersion = "1.5"
+            jvmTarget = "11"
+        }
 
         // TODO: setup kotest as runner
 

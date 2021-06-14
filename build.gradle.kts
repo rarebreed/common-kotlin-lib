@@ -39,8 +39,9 @@ dependencies {
         description = "Use JDK 8 version standard lib"
     }
 
+
     // These dependencies will allow this custom plugin to automatically be applied to projects which use it
-    runtimeOnly("org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:$kotlinVersion") {
+    implementation("org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:$kotlinVersion") {
         description = "Provides this plugin to our custom plugin, so that it is automatically applied"
     }
     runtimeOnly("org.jetbrains.kotlin.kapt:org.jetbrains.kotlin.kapt.gradle.plugin:$kotlinVersion") {
