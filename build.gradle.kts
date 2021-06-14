@@ -40,12 +40,26 @@ dependencies {
     }
 
     // These dependencies will allow this custom plugin to automatically be applied to projects which use it
-/*     runtimeOnly("org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:$kotlinVersion") {
+    runtimeOnly("org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin:$kotlinVersion") {
         description = "Provides this plugin to our custom plugin, so that it is automatically applied"
     }
     runtimeOnly("org.jetbrains.kotlin.kapt:org.jetbrains.kotlin.kapt.gradle.plugin:$kotlinVersion") {
         description = "Provides kapt annotations for projects"
-    } */
+    }
+    runtimeOnly(platform("org.jetbrains.kotlin:kotlin-bom:$kotlinVersion")) {
+        description = "align versions of all Kotlin components"
+    }
+    runtimeOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion") {
+        description = "Use JDK 8 version standard lib"
+    }
+    runtimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion") {
+        description = "Reflection for kotlin"
+    }
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0") {
+        description = "Coroutines for kotlin"
+    }
+    runtimeOnly("io.kotest:kotest-runner-junit5:$kotestVersion")
+    runtimeOnly("io.kotest:kotest-assertions-core:$kotestVersion")
 
     testImplementation("io.kotest:kotest-runner-junit5:4.4.0")
     testImplementation("io.kotest:kotest-assertions-core:4.4.0")
